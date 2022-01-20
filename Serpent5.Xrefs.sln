@@ -1,0 +1,39 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.32014.148
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Serpent5.Xrefs", "Serpent5.Xrefs\Serpent5.Xrefs.csproj", "{06773C06-FE79-4943-BED2-5DFFAE229D15}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{5D7A2B29-BA5D-428A-A9A8-77FEC706F4C3}"
+	ProjectSection(SolutionItems) = preProject
+		.editorconfig = .editorconfig
+		.gitattributes = .gitattributes
+		.gitignore = .gitignore
+		Directory.Build.props = Directory.Build.props
+	EndProjectSection
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Serpent5.Xrefs.Tests", "Serpent5.Xrefs.Tests\Serpent5.Xrefs.Tests.csproj", "{AA5D0AC6-DD20-4854-B7DE-065DDE8A9EED}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{06773C06-FE79-4943-BED2-5DFFAE229D15}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{06773C06-FE79-4943-BED2-5DFFAE229D15}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{06773C06-FE79-4943-BED2-5DFFAE229D15}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{06773C06-FE79-4943-BED2-5DFFAE229D15}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AA5D0AC6-DD20-4854-B7DE-065DDE8A9EED}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AA5D0AC6-DD20-4854-B7DE-065DDE8A9EED}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AA5D0AC6-DD20-4854-B7DE-065DDE8A9EED}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AA5D0AC6-DD20-4854-B7DE-065DDE8A9EED}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {FCE619B8-FE26-4AFE-8C2A-50092CC96325}
+	EndGlobalSection
+EndGlobal
