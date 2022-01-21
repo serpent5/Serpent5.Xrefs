@@ -10,10 +10,13 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		.editorconfig = .editorconfig
 		.gitattributes = .gitattributes
 		.gitignore = .gitignore
+		.github\workflows\default.yml = .github\workflows\default.yml
 		Directory.Build.props = Directory.Build.props
 	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Serpent5.Xrefs.Tests", "Serpent5.Xrefs.Tests\Serpent5.Xrefs.Tests.csproj", "{AA5D0AC6-DD20-4854-B7DE-065DDE8A9EED}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Serpent5.Xrefs.Host", "Serpent5.Xrefs.Host\Serpent5.Xrefs.Host.csproj", "{99789AA0-2851-4AC1-AC97-9D630546612B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -29,6 +32,10 @@ Global
 		{AA5D0AC6-DD20-4854-B7DE-065DDE8A9EED}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{AA5D0AC6-DD20-4854-B7DE-065DDE8A9EED}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{AA5D0AC6-DD20-4854-B7DE-065DDE8A9EED}.Release|Any CPU.Build.0 = Release|Any CPU
+		{99789AA0-2851-4AC1-AC97-9D630546612B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{99789AA0-2851-4AC1-AC97-9D630546612B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{99789AA0-2851-4AC1-AC97-9D630546612B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{99789AA0-2851-4AC1-AC97-9D630546612B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

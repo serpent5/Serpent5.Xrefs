@@ -1,0 +1,17 @@
+@page
+@model IndexModel
+
+<form method="POST">
+  <input asp-for="Input!.Text" autofocus />
+  <button>Submit</button>
+</form>
+
+@if (Model.Output is not null)
+{
+  <ul>
+    @foreach (var x in Model.Output.Suggestions)
+    {
+      <li>@x</li>
+    }
+  </ul>
+}
