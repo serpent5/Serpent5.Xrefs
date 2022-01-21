@@ -1,17 +1,20 @@
 @page
 @model IndexModel
 
-<form method="POST">
-  <input asp-for="Input!.Text" autofocus />
-  <button>Submit</button>
+<form method="POST" class="mb-3">
+    <div class="mb-2">
+        <input asp-for="Input!.Text" autofocus class="form-control" />
+    </div>
 </form>
 
 @if (Model.Output is not null)
 {
-  <ul>
-    @foreach (var x in Model.Output.Suggestions)
-    {
-      <li>@x</li>
-    }
-  </ul>
+    <ul class="list-group">
+        @foreach (var x in Model.Output.Suggestions)
+        {
+            <li class="list-group-item">
+                <span class="text-break">@x</span>
+            </li>
+        }
+    </ul>
 }
