@@ -6,6 +6,9 @@
     <NoWarn>$(NoWarn);CA2007</NoWarn>
   </PropertyGroup>
   <ItemGroup>
+    <PackageReference Include="AngleSharp" Version="0.16.1" />
+  </ItemGroup>
+  <ItemGroup>
     <ProjectReference Include="..\Serpent5.Xrefs\Serpent5.Xrefs.csproj" />
   </ItemGroup>
 </Project>
