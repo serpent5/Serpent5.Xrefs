@@ -11,11 +11,37 @@ export class Root extends React.Component {
     };
   }
 
+  componentDidMount() {
+    if (window.URLSearchParams) {
+      const urlSearchParams = new URLSearchParams(location.search);
+      const q = urlSearchParams.get("q");
+
+      if (q) {
+        this.setState({
+          searchText: q
+        });
+
+        setTimeout(() => this.onSubmit({ preventDefault: () => {} }));
+      }
+    }
+  }
+
   onSubmit(e) {
     e.preventDefault();
 
     if (this.state.isSearching) return;
     if (!this.state.searchText) return;
+
+    if (history.replaceState && window.URLSearchParams) {
+      history.replaceState(
+        null,
+        null,
+        "?" +
+          new URLSearchParams({
+            q: this.state.searchText
+          }).toString()
+      );
+    }
 
     this.setState({
       xrefSuggestions: [],
@@ -59,7 +85,7 @@ export class Root extends React.Component {
             />
           </form>
 
-          {!this.state.isSearching && this.state.xrefSuggestions && (
+          {this.state.xrefSuggestions?.length > 0 && (
             <ol className="mt-4 space-y-2">
               {this.state.xrefSuggestions.map(x => (
                 <li key={x} className="flex items-center p-2 border break-all">
