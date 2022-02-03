@@ -1,8 +1,2 @@
 .vs/
 .vscode/
-bin/
-obj/
-PublishProfiles/
-ServiceDependencies/
-
-*.user

@@ -10,5 +10,5 @@ jobs:
         with:
           dotnet-version: 6.0.x
       - uses: actions/checkout@v2
-      - run: dotnet build -c Release
-      - run: dotnet test -c Release --no-build
+      - run: dotnet build ./Backend -c Release
+      - run: dotnet test ./Backend -c Release --no-build
