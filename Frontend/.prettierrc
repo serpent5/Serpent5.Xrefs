@@ -1,0 +1,13 @@
+{
+  "arrowParens": "avoid",
+  "printWidth": 120,
+  "trailingComma": "none",
+  "overrides": [
+    {
+      "files": "*.ejs",
+      "options": {
+        "parser": "html"
+      }
+    }
+  ]
+}

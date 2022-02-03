@@ -1,5 +1,6 @@
 #pragma warning disable CA1812 // Avoid uninstantiated internal classes
 
+using System.Globalization;
 using System.Text;
 using AngleSharp;
 using AngleSharp.Html;
@@ -19,6 +20,7 @@ var webApplicationBuilder = WebApplication.CreateBuilder();
 webApplicationBuilder.Services.AddMemoryCache();
 webApplicationBuilder.Services.AddResponseCompression();
 webApplicationBuilder.Services.AddHealthChecks();
+webApplicationBuilder.Services.AddControllers();
 
 webApplicationBuilder.Services.Configure<KestrelServerOptions>(static o =>
 {
@@ -74,11 +76,8 @@ webApplicationBuilder.Services.Configure<HealthCheckOptions>(static o =>
     o.ResultStatusCodes[HealthStatus.Degraded] = StatusCodes.Status204NoContent;
 });
 
-// App-Specific.
 webApplicationBuilder.Services.AddSingleton<HttpClient>();
 webApplicationBuilder.Services.AddSingleton<XrefClient>();
-
-webApplicationBuilder.Services.AddRazorPages();
 
 await using var webApplication = webApplicationBuilder.Build();
 
@@ -113,12 +112,26 @@ webApplication.Use(static (ctx, nextMiddleware) =>
 
         if (ctx.Response.GetTypedHeaders().ContentType?.MediaType.Equals("text/html", StringComparison.OrdinalIgnoreCase) == true)
         {
-            ctx.Response.Headers.ContentSecurityPolicy =
+            var webHostEnvironment = ctx.RequestServices.GetRequiredService<IWebHostEnvironment>();
+
+            var cspBuilder = new StringBuilder(
                 "base-uri 'self'; " +
-                "object-src 'none'; " +
-               $"script-src 'strict-dynamic' 'nonce-{ctx.GetCspNonce()}' 'unsafe-inline' http: https:; " +
                 "frame-ancestors 'none'; " +
-                "require-trusted-types-for 'script';";
+                "object-src 'none'; ");
+
+            if (webHostEnvironment.IsDevelopment())
+            {
+                cspBuilder.Append(
+                    CultureInfo.InvariantCulture,
+                    $"script-src 'strict-dynamic' 'nonce-{ctx.GetCspNonce()}' 'unsafe-inline' 'unsafe-eval' http: https:;");
+            }
+            else
+            {
+                cspBuilder.Append("require-trusted-types-for 'script';");
+                cspBuilder.Append(
+                    CultureInfo.InvariantCulture,
+                    $"script-src 'strict-dynamic' 'nonce-{ctx.GetCspNonce()}' 'unsafe-inline' http: https:; ");
+            }
 
             ctx.Response.Headers["Permissions-Policy"] = "accelerometer=(), ambient-light-sensor=(), autoplay=(), battery=(), camera=(), cross-origin-isolated=(), display-capture=(), document-domain=(), encrypted-media=(), execution-while-not-rendered=(), execution-while-out-of-viewport=(), fullscreen=(), geolocation=(), gyroscope=(), keyboard-map=(), magnetometer=(), microphone=(), midi=(), navigation-override=(), payment=(), picture-in-picture=(), publickey-credentials-get=(), screen-wake-lock=(), sync-xhr=(), usb=(), web-share=(), xr-spatial-tracking=()";
             ctx.Response.Headers["Referrer-Policy"] = "strict-origin-when-cross-origin";
@@ -185,6 +198,7 @@ webApplication.UseResponseCompression();
 webApplication.UseStaticFiles();
 
 webApplication.MapHealthChecks("/healthz");
+webApplication.MapControllers();
 
 webApplication.MapFallback(static async (HttpContext ctx, IMemoryCache memoryCache) =>
 {
@@ -239,9 +253,6 @@ webApplication.MapFallback(static async (HttpContext ctx, IMemoryCache memoryCac
 
     await httpResponse.Body.WriteAsync(htmlContentBytes, cancellationToken);
 });
-
-// App-Specific.
-webApplication.MapRazorPages();
 
 await webApplication.RunAsync();
 
