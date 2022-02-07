@@ -200,18 +200,19 @@ webApplication.UseStaticFiles();
 webApplication.MapHealthChecks("/healthz");
 webApplication.MapControllers();
 
-webApplication.MapFallback(static async (HttpContext ctx, IMemoryCache memoryCache) =>
+webApplication.Use(static async (ctx, nextMiddleware) =>
 {
     var (httpRequest, httpResponse, cancellationToken) = (ctx.Request, ctx.Response, ctx.RequestAborted);
 
     if (httpRequest.Path.StartsWithSegments("/api", StringComparison.OrdinalIgnoreCase)
         || !string.IsNullOrEmpty(Path.GetExtension(httpRequest.Path)))
     {
-        ctx.Response.StatusCode = StatusCodes.Status404NotFound;
+        await nextMiddleware(ctx);
         return;
     }
 
     const string indexFilename = "index.html";
+    var memoryCache = ctx.RequestServices.GetRequiredService<IMemoryCache>();
 
     var htmlContent = await memoryCache.GetOrCreateAsync<string?>(indexFilename, async cacheEntry =>
     {
@@ -246,12 +247,15 @@ webApplication.MapFallback(static async (HttpContext ctx, IMemoryCache memoryCac
     foreach (var htmlScriptElement in htmlDocument.Scripts)
         htmlScriptElement.SetAttribute("nonce", cspNonce);
 
-    var htmlContentBytes = Encoding.UTF8.GetBytes(htmlDocument.ToHtml(new MinifyMarkupFormatter()));
+    var htmlContentByteCount = Encoding.UTF8.GetBytes(
+        htmlDocument.ToHtml(new MinifyMarkupFormatter()),
+        httpResponse.BodyWriter.GetSpan());
 
-    httpResponse.ContentLength = htmlContentBytes.Length;
+    httpResponse.ContentLength = htmlContentByteCount;
     httpResponse.ContentType = "text/html; charset=utf-8";
 
-    await httpResponse.Body.WriteAsync(htmlContentBytes, cancellationToken);
+    httpResponse.BodyWriter.Advance(htmlContentByteCount);
+    await httpResponse.BodyWriter.FlushAsync(cancellationToken);
 });
 
 await webApplication.RunAsync();
