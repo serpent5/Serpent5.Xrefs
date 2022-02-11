@@ -4,6 +4,7 @@ const { merge: webpackMerge } = require("webpack-merge");
 const CleanPlugin = require("clean-webpack-plugin").CleanWebpackPlugin;
 const CopyPlugin = require("copy-webpack-plugin");
 const CSSMinimizerPlugin = require("css-minimizer-webpack-plugin");
+const ESLintPlugin = require("eslint-webpack-plugin");
 const HTMLPlugin = require("html-webpack-plugin");
 const MiniCSSExtractPlugin = require("mini-css-extract-plugin");
 const StylelintPlugin = require("stylelint-webpack-plugin");
@@ -18,6 +19,8 @@ module.exports = function getWebpackConfig(_, { mode: webpackMode }) {
     isDevelopment ? getDevelopmentWebpackConfig() : getProductionWebpackConfig(filenameBase)
   );
 };
+
+const jsExtensions = [".js", ".jsx"];
 
 function getBaseWebpackConfig(isDevelopment, sourceContext, filenameBase) {
   return {
@@ -92,10 +95,14 @@ function getBaseWebpackConfig(isDevelopment, sourceContext, filenameBase) {
       }),
       new StylelintPlugin({
         context: sourceContext
+      }),
+      new ESLintPlugin({
+        context: sourceContext,
+        extensions: jsExtensions
       })
     ],
     resolve: {
-      extensions: [".jsx", ".js"]
+      extensions: jsExtensions
     }
   };
 }
