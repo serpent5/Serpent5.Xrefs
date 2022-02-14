@@ -9,6 +9,14 @@ jobs:
       - uses: actions/setup-dotnet@v1
         with:
           dotnet-version: 6.0.x
+      - uses: actions/setup-node@v2
+        with:
+          node-version: 14
       - uses: actions/checkout@v2
-      - run: dotnet build ./Backend -c Release
-      - run: dotnet test ./Backend -c Release --no-build
+      - run: dotnet build ./Backend/ -c Release
+      - run: dotnet test ./Backend/ -c Release --no-build
+      - run: npm ci
+        working-directory: ./Frontend/
+      - run: npm run build
+        working-directory: ./Frontend/
+      - run: dotnet publish ./Backend/ -c Release --no-build -o dotnet-publish/

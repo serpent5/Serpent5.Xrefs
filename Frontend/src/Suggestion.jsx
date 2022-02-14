@@ -9,7 +9,7 @@ const COPY_MEMBER_ONLY = 4;
 
 export default function Suggestion({ xrefValue }) {
   return (
-    <div className="relative px-8 py-6 cursor-pointer">
+    <div className="relative px-8 py-6">
       <div className="break-all">{xrefValue}</div>
 
       {navigator.clipboard && (
