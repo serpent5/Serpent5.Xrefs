@@ -1,5 +1,5 @@
 import React from "react";
-import { Suggestion } from "./Suggestion";
+import Suggestion from "./Suggestion";
 
 export class Root extends React.Component {
   constructor(props) {
@@ -137,7 +137,7 @@ export class Root extends React.Component {
       })
       .then(xrefSuggestions =>
         this.setState({
-          xrefSuggestions: xrefSuggestions.map(x => x.replace(/\*/g, "%2A").replace(/`/g, "%60")),
+          xrefSuggestions,
           isSearching: false
         })
       )

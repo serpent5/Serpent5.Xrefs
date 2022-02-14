@@ -1,45 +1,25 @@
 import PropTypes from "prop-types";
+import Button from "./Button";
 
-export function Suggestion({ xrefValue }) {
+const COPY_NONE = 0;
+const COPY_FULL_NAME = 1;
+const COPY_NAME_WITH_TYPE = 2;
+const COPY_CUSTOM_TEXT = 3;
+const COPY_MEMBER_ONLY = 4;
+
+export default function Suggestion({ xrefValue }) {
   return (
-    <div className="px-8 py-6">
+    <div className="relative px-8 py-6 cursor-pointer">
       <div className="break-all">{xrefValue}</div>
 
       {navigator.clipboard && (
         <div className="mt-4 space-x-2">
           <span className="mr-2">Copy:</span>
-          <button
-            className="px-4 py-2 border-2 bg-gray-200 rounded-md shadow-sm hover:bg-gray-400 transition-colors"
-            onClick={() => navigator.clipboard.writeText(`<xref:${xrefValue}>`)}
-          >
-            None
-          </button>
-
-          <button
-            className="px-4 py-2 border-2 bg-gray-200 rounded-md shadow-sm hover:bg-gray-400 transition-colors"
-            onClick={() => navigator.clipboard.writeText(`<xref:${xrefValue}?displayProperty=fullName>`)}
-          >
-            Full Name
-          </button>
-
-          <button
-            className="px-4 py-2 border-2 bg-gray-200 rounded-md shadow-sm hover:bg-gray-400 transition-colors"
-            onClick={() => navigator.clipboard.writeText(`<xref:${xrefValue}?displayProperty=nameWithType>`)}
-          >
-            Name with Type
-          </button>
-          <button
-            className="px-4 py-2 border-2 bg-gray-200 rounded-md shadow-sm hover:bg-gray-400 transition-colors"
-            onClick={() => navigator.clipboard.writeText(`[](xref:${xrefValue})`)}
-          >
-            Custom Text
-          </button>
-          <button
-            className="px-4 py-2 border-2 bg-gray-200 rounded-md shadow-sm hover:bg-gray-400 transition-colors"
-            onClick={() => navigator.clipboard.writeText(`xref:${xrefValue}`)}
-          >
-            Member Only
-          </button>
+          <Button onClick={() => copyToClipboard(xrefValue, COPY_NONE)}>None</Button>
+          <Button onClick={() => copyToClipboard(xrefValue, COPY_FULL_NAME)}>Full Name</Button>
+          <Button onClick={() => copyToClipboard(xrefValue, COPY_NAME_WITH_TYPE)}>Name with Type</Button>
+          <Button onClick={() => copyToClipboard(xrefValue, COPY_CUSTOM_TEXT)}>Custom Text</Button>
+          <Button onClick={() => copyToClipboard(xrefValue, COPY_MEMBER_ONLY)}>Member Only</Button>
         </div>
       )}
     </div>
@@ -49,3 +29,32 @@ export function Suggestion({ xrefValue }) {
 Suggestion.propTypes = {
   xrefValue: PropTypes.string.isRequired
 };
+
+function copyToClipboard(xrefValue, copyStyle) {
+  let xrefMemberValue = "xref:" + xrefValue.replace(/\*/g, "%2A").replace(/`/g, "%60");
+  let xrefClipboardValue;
+
+  switch (copyStyle) {
+    case COPY_NONE:
+      xrefClipboardValue = `<${xrefMemberValue}>`;
+      break;
+
+    case COPY_FULL_NAME:
+      xrefClipboardValue = `<${xrefMemberValue}?displayProperty=fullName>`;
+      break;
+
+    case COPY_NAME_WITH_TYPE:
+      xrefClipboardValue = `<${xrefMemberValue}?displayProperty=nameWithType>`;
+      break;
+
+    case COPY_CUSTOM_TEXT:
+      xrefClipboardValue = `[](${xrefMemberValue})`;
+      break;
+
+    case COPY_MEMBER_ONLY:
+      xrefClipboardValue = xrefMemberValue;
+      break;
+  }
+
+  navigator.clipboard.writeText(xrefClipboardValue);
+}
