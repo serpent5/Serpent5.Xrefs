@@ -5,6 +5,7 @@ namespace Serpent5.Xrefs.Host.Controllers;
 
 [ApiController]
 [Route("/api/Suggestions")]
+#pragma warning disable CA1062 // Validate arguments of public methods
 public class SuggestionsController : ControllerBase
 {
     private readonly XrefClient xrefClient;
@@ -20,7 +21,7 @@ public class SuggestionsController : ControllerBase
 
         try
         {
-            xrefSuggestions = await xrefClient.SuggestAsync(queryText, cancellationToken);
+            xrefSuggestions = await xrefClient.SuggestAsync(queryText!.Trim(), cancellationToken);
         }
         catch (XrefClientException)
         {
@@ -31,3 +32,4 @@ public class SuggestionsController : ControllerBase
         return new(xrefSuggestions.Select(x => x.Uid));
     }
 }
+#pragma warning restore CA1062 // Validate arguments of public methods

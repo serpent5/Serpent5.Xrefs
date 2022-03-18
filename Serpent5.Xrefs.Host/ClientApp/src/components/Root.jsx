@@ -95,22 +95,19 @@ export default class Root extends React.Component {
     if (this.state.isSearching) return;
     if (!this.state.searchText) return;
 
+    const searchText = this.state.searchText.trim();
+
+    if (!searchText) return;
+
     if (history.replaceState && window.URLSearchParams) {
-      history.replaceState(
-        null,
-        null,
-        "?" +
-          new URLSearchParams({
-            q: this.state.searchText
-          }).toString()
-      );
+      history.replaceState(null, null, "?" + new URLSearchParams({ q: searchText }).toString());
     }
 
-    this.setState({ xrefSuggestions: null, isSearching: true });
+    this.setState({ xrefSuggestions: null, searchText, isSearching: true });
 
     var apiURL = new URL(location.origin + "/api/Suggestions");
 
-    apiURL.searchParams.append("q", this.state.searchText);
+    apiURL.searchParams.append("q", searchText);
 
     let xrefSuggestions = [];
 
