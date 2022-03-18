@@ -10,6 +10,8 @@ using Serpent5.Xrefs;
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddApplicationInsightsTelemetry();
+
+builder.Services.AddResponseCompression();
 builder.Services.AddControllers();
 
 builder.Services.Configure<KestrelServerOptions>(static o =>
