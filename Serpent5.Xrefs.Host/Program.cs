@@ -31,6 +31,7 @@ builder.Services.AddOptions<StaticFileOptions>()
         o.ContentTypeProvider = new FileExtensionContentTypeProvider(new Dictionary<string, string>
         {
             [".css"] = "text/css; charset=utf-8",
+            [".html"] = "text/html; charset=utf-8",
             [".ico"] = "image/x-icon",
             [".js"] = "application/javascript; charset=utf-8",
             [".txt"] = "text/plain; charset=utf-8"
