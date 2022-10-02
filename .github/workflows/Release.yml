@@ -2,6 +2,7 @@ on:
   push:
     branches:
       - default
+  workflow_dispatch:
 jobs:
   default:
     runs-on: ubuntu-latest
