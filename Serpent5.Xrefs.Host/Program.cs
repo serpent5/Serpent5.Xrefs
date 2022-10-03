@@ -5,7 +5,6 @@ using Microsoft.AspNetCore.Server.Kestrel.Core;
 using Microsoft.AspNetCore.StaticFiles;
 using Microsoft.Extensions.Primitives;
 using Microsoft.Net.Http.Headers;
-using Serpent5.Xrefs;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -56,15 +55,22 @@ builder.Services.AddOptions<StaticFileOptions>()
         }
     });
 
-builder.Services.AddSingleton<HttpClient>();
-builder.Services.AddSingleton<XrefClient>();
+var yarpConfiguration = new ConfigurationBuilder()
+    .AddInMemoryCollection(new[]
+    {
+        KeyValuePair.Create("Routes:Xrefs:ClusterId", "Cluster"),
+        KeyValuePair.Create("Routes:Xrefs:Match:Path", "/api/{**x}"),
+        KeyValuePair.Create("Routes:Xrefs:Transforms:0:PathRemovePrefix", "/api"),
+        KeyValuePair.Create("Clusters:Cluster:Destinations:Destination:Address", "https://xref.docs.microsoft.com"),
+    });
+
+builder.Services.AddReverseProxy()
+    .LoadFromConfig(yarpConfiguration.Build());
 
 var app = builder.Build();
 
 if (!app.Environment.IsDevelopment())
-{
     app.UseHsts();
-}
 
 app.UseHttpsRedirection();
 
@@ -104,7 +110,7 @@ app.Use(static (ctx, nextMiddleware) =>
 app.UseResponseCompression();
 app.UseStaticFiles();
 
-app.MapControllers();
+app.MapReverseProxy();
 app.MapFallbackToFile("index.html");
 
 app.Run();

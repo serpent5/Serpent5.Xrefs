@@ -105,9 +105,9 @@ export default class Root extends React.Component {
 
     this.setState({ xrefSuggestions: null, searchText, isSearching: true });
 
-    var apiURL = new URL(location.origin + "/api/Suggestions");
+    var apiURL = new URL(location.origin + "/api/Autocomplete");
 
-    apiURL.searchParams.append("q", searchText);
+    apiURL.searchParams.append("text", searchText);
 
     let xrefSuggestions = [];
 

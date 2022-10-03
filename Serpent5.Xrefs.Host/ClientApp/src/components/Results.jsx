@@ -14,7 +14,7 @@ export default function Results({ xrefSuggestions }) {
     <ol className="mt-6 bg-white border border-gray-500 divide-y divide-gray-500 shadow-xl">
       {xrefSuggestions.map(x => (
         <li key={x}>
-          <Suggestion xrefValue={x} />
+          <Suggestion xrefValue={x.uid} />
         </li>
       ))}
     </ol>
