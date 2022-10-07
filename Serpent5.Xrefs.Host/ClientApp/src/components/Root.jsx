@@ -30,7 +30,7 @@ export default class Root extends React.Component {
 
     return (
       <>
-        <main className="max-w-screen-xl mx-4 my-6 md:mx-auto md:my-8">
+        <main className="mx-4 my-6 max-w-screen-xl md:mx-auto md:my-8">
           <form className="shadow-xl" onSubmit={e => this.onSubmit(e)}>
             <div className="relative">
               <input
@@ -43,9 +43,14 @@ export default class Root extends React.Component {
                 readOnly={isSearching}
               />
 
-              <div className="absolute top-1/2 -translate-y-1/2 left-4 text-gray-500 pointer-events-none">
+              <div className="pointer-events-none absolute top-1/2 left-4 -translate-y-1/2 text-gray-500">
                 {isSearching ? (
-                  <svg className="animate-spin w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                  <svg
+                    className="w-6 animate-spin"
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                  >
                     <circle
                       className="opacity-25"
                       cx="12"
@@ -100,7 +105,11 @@ export default class Root extends React.Component {
     if (!searchText) return;
 
     if (history.replaceState && window.URLSearchParams) {
-      history.replaceState(null, null, "?" + new URLSearchParams({ q: searchText }).toString());
+      history.replaceState(
+        null,
+        null,
+        "?" + new URLSearchParams({ q: searchText }).toString()
+      );
     }
 
     this.setState({ xrefSuggestions: null, searchText, isSearching: true });

@@ -16,11 +16,27 @@ export default function Suggestion({ xrefValue }) {
         <div className="mt-4 md:flex md:items-center">
           <div className="text-center md:mr-4">Copy:</div>
           <div className="mt-2 space-y-2 md:mt-0 md:space-x-2 md:space-y-0">
-            <Button onClick={() => copyToClipboard(xrefValue, COPY_NAME)}>Name</Button>
-            <Button onClick={() => copyToClipboard(xrefValue, COPY_NAME_WITH_TYPE)}>Name with Type</Button>
-            <Button onClick={() => copyToClipboard(xrefValue, COPY_FULL_NAME)}>Full Name</Button>
-            <Button onClick={() => copyToClipboard(xrefValue, COPY_CUSTOM_TEXT)}>Custom Text</Button>
-            <Button onClick={() => copyToClipboard(xrefValue, COPY_MEMBER_ONLY)}>Member Only</Button>
+            <Button onClick={() => copyToClipboard(xrefValue, COPY_NAME)}>
+              Name
+            </Button>
+            <Button
+              onClick={() => copyToClipboard(xrefValue, COPY_NAME_WITH_TYPE)}
+            >
+              Name with Type
+            </Button>
+            <Button onClick={() => copyToClipboard(xrefValue, COPY_FULL_NAME)}>
+              Full Name
+            </Button>
+            <Button
+              onClick={() => copyToClipboard(xrefValue, COPY_CUSTOM_TEXT)}
+            >
+              Custom Text
+            </Button>
+            <Button
+              onClick={() => copyToClipboard(xrefValue, COPY_MEMBER_ONLY)}
+            >
+              Member Only
+            </Button>
           </div>
         </div>
       )}
@@ -33,7 +49,8 @@ Suggestion.propTypes = {
 };
 
 function copyToClipboard(xrefValue, copyStyle) {
-  let xrefMemberValue = "xref:" + xrefValue.replace(/\*/g, "%2A").replace(/`/g, "%60");
+  let xrefMemberValue =
+    "xref:" + xrefValue.replace(/\*/g, "%2A").replace(/`/g, "%60");
   let xrefClipboardValue;
 
   switch (copyStyle) {
